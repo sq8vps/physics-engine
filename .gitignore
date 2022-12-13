@@ -39,6 +39,7 @@
 *.code-workspace
 
 build/
+CMakeFiles/
 
 # Local History for Visual Studio Code
 .history/

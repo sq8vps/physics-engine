@@ -2,6 +2,8 @@
 
 #include <GL/gl.h>
 #include "../vec.hpp"
+#include "shape.hpp"
+#include <vector>
 
 #define GRAPHICS_DEFAULT_DIM_X 800
 #define GRAPHICS_DEFAULT_DIM_Y 600
@@ -15,6 +17,7 @@ public:
     void exec();
     void setCamera(Vec3 eye, Vec3 at, Vec3 up);
     void setCameraDefaults();
+    void add(Shape &object);
 
 
     
@@ -26,4 +29,6 @@ private:
     Vec3 camEye, camAt, camUp; //view transform (camera) vectors
     static void updateWindow();
     static void reshapeWindow(GLsizei x, GLsizei y);
+
+    std::vector<Shape> objects; //vector with all objects
 };

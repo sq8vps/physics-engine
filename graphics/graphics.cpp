@@ -8,6 +8,7 @@
 #include "../error.hpp"
 #include "glut.h"
 
+
 Graphics *wrapperPtr = nullptr;
 
 Graphics::Graphics(int dimX, int dimY, double fov)
@@ -54,48 +55,29 @@ Graphics::~Graphics()
 
 void Graphics::updateWindow()
 {
-   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);   // Clear color and depth buffer
-   glMatrixMode(GL_MODELVIEW);     // To operate on Model-View matrix
- 
-   // Render a pyramid consists of 4 triangles
-   glLoadIdentity();                  // Reset the model-view matrix
-   glTranslatef(-1.5f, 0.0f, -6.0f);  // Move left and into the screen
- 
-   glBegin(GL_TRIANGLES);           // Begin drawing the pyramid with 4 triangles
-      // Front
-      glColor3f(1.0f, 0.0f, 0.0f);     // Red
-      glVertex3f( 0.0f, 1.0f, 0.0f);
-      glColor3f(0.0f, 1.0f, 0.0f);     // Green
-      glVertex3f(-1.0f, -1.0f, 1.0f);
-      glColor3f(0.0f, 0.0f, 1.0f);     // Blue
-      glVertex3f(1.0f, -1.0f, 1.0f);
- 
-      // Right
-      glColor3f(1.0f, 0.0f, 0.0f);     // Red
-      glVertex3f(0.0f, 1.0f, 0.0f);
-      glColor3f(0.0f, 0.0f, 1.0f);     // Blue
-      glVertex3f(1.0f, -1.0f, 1.0f);
-      glColor3f(0.0f, 1.0f, 0.0f);     // Green
-      glVertex3f(1.0f, -1.0f, -1.0f);
- 
-      // Back
-      glColor3f(1.0f, 0.0f, 0.0f);     // Red
-      glVertex3f(0.0f, 1.0f, 0.0f);
-      glColor3f(0.0f, 1.0f, 0.0f);     // Green
-      glVertex3f(1.0f, -1.0f, -1.0f);
-      glColor3f(0.0f, 0.0f, 1.0f);     // Blue
-      glVertex3f(-1.0f, -1.0f, -1.0f);
- 
-      // Left
-      glColor3f(1.0f,0.0f,0.0f);       // Red
-      glVertex3f( 0.0f, 1.0f, 0.0f);
-      glColor3f(0.0f,0.0f,1.0f);       // Blue
-      glVertex3f(-1.0f,-1.0f,-1.0f);
-      glColor3f(0.0f,1.0f,0.0f);       // Green
-      glVertex3f(-1.0f,-1.0f, 1.0f);
-   glEnd();   // Done drawing the pyramid
- 
-   glutSwapBuffers();   // Double buffered - swap the front and back buffers
+    
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);   //clear buffers
+   
+    glMatrixMode(GL_MODELVIEW);
+
+    glLoadIdentity();
+    
+
+    //glEnableClientState(GL_COLOR_ARRAY);
+    //glEnableClientState(GL_VERTEX_ARRAY);
+    //glColorPointer(3, GL_FLOAT, 0, colors1);
+    //glVertexPointer(3, GL_FLOAT, 0, vertices1);
+    glPushMatrix();
+    
+    for(int i = 0; i < wrapperPtr->objects.size(); i++)
+        wrapperPtr->objects.at(i).draw();
+    
+    glPopMatrix();
+
+    //glDisableClientState(GL_VERTEX_ARRAY);  // disable vertex arrays
+    //glDisableClientState(GL_COLOR_ARRAY);
+
+    glutSwapBuffers();
 }
 
 void Graphics::reshapeWindow(GLsizei x, GLsizei y)
@@ -129,4 +111,9 @@ void Graphics::setCamera(Vec3 eye, Vec3 at, Vec3 up)
 void Graphics::setCameraDefaults()
 {
     setCamera(Vec3(0.f, 0.f, 0.f), Vec3(0.f, 0.f, -100.f), Vec3(0.f, 1.f, 0.f));
+}
+
+void Graphics::add(Shape &object)
+{
+    objects.push_back(object);
 }

@@ -2,7 +2,6 @@
 
 #include <cmath>
 #include "env.hpp"
-extern struct Environment env;
 
 void PointParticle::move(void)
 {

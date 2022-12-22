@@ -4,12 +4,12 @@
  * Environment settings
 */
 
-constexpr float DEFAULT_TIME_STEP = 0.001f; //1 ms
-constexpr float DEFAULT_ENV_RHO = 1.240f; //standard density of air
-constexpr float DEFAULT_ENV_MU = 0.0000181f; //standard dynamic viscosity of air
-constexpr float DEFAULT_GRAVITY = 9.8f; //standard gravity on Earth
+#define DEFAULT_TIME_STEP 0.001f //1 ms
+#define DEFAULT_ENV_RHO 1.240f //standard density of air
+#define DEFAULT_ENV_MU 0.0000181f //standard dynamic viscosity of air
+#define DEFAULT_GRAVITY 9.8f //standard gravity on Earth
 
-constexpr float DISTANCE_DELTA_ZERO = 0.001f; //maximum distance difference between to objects to be treated as zero
+#define DISTANCE_DELTA_ZERO 0.001f //maximum distance difference between to objects to be treated as zero
 
 struct Environment
 {
@@ -20,3 +20,5 @@ struct Environment
 
     float t{0.f}; //current time value in s
 };
+
+extern struct Environment env;

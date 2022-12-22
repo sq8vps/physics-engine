@@ -1,7 +1,7 @@
 #pragma once
 
 #include "body.hpp"
-#include "error.hpp"
+#include "../error.hpp"
 
 class PointParticle
 : public Body

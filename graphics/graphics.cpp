@@ -38,12 +38,32 @@ Graphics::Graphics(int dimX, int dimY, double fov)
     glutDisplayFunc(this->updateWindow); //register all callbacks
     glutReshapeFunc(Graphics::reshapeWindow);
     glutIdleFunc(Graphics::updateWindow);
-    glClearColor(0.f, 0.f, 0.f, 1.f); //set background color to black
+    glClearColor(0.2f, 0.2f, 0.2f, 1.f); //set background color to gray
     glClearDepth(1.f); //reset depth
     glEnable(GL_DEPTH_TEST);
     glDepthFunc(GL_LEQUAL); //set depth comparison condition
     glShadeModel(GL_SMOOTH);
     glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
+    glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE);
+    glEnable(GL_COLOR_MATERIAL);
+    glEnable(GL_LIGHTING);
+
+    GLfloat ambLight[] = {0.2f, 0.2f, 0.2f, 1.f}; //ambient light
+    GLfloat diffLight[] = {0.6f, 0.6f, 0.6f, 1.f}; //diffuse light (more intensive)
+    GLfloat specLight[] = {1.f, 1.f, 1.f, 1.f};  //specular light (intensive point of light)
+    GLfloat lightPos[] = {1.f, 1.f, 1.f};  //light source position
+
+    GLfloat specRefl[] = {1.f, 1.f, 1.f, 1.f}; //material reflectance for specular light
+
+
+    glLightfv(GL_LIGHT0, GL_AMBIENT, ambLight); //set light source
+    glLightfv(GL_LIGHT0, GL_DIFFUSE, diffLight);
+    glLightfv(GL_LIGHT0, GL_SPECULAR, specLight);
+    glLightfv(GL_LIGHT0, GL_POSITION, lightPos);
+    glEnable(GL_LIGHT0);
+
+    glMaterialfv(GL_FRONT, GL_SPECULAR, specRefl); //set material reflectance parameters
+    glMaterialf(GL_FRONT, GL_SHININESS, 128);
 
     setCameraDefaults();
 }
@@ -59,23 +79,13 @@ void Graphics::updateWindow()
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);   //clear buffers
    
     glMatrixMode(GL_MODELVIEW);
-
     glLoadIdentity();
-    
-
-    //glEnableClientState(GL_COLOR_ARRAY);
-    //glEnableClientState(GL_VERTEX_ARRAY);
-    //glColorPointer(3, GL_FLOAT, 0, colors1);
-    //glVertexPointer(3, GL_FLOAT, 0, vertices1);
     glPushMatrix();
     
     for(int i = 0; i < wrapperPtr->objects.size(); i++)
         wrapperPtr->objects.at(i).draw();
     
     glPopMatrix();
-
-    //glDisableClientState(GL_VERTEX_ARRAY);  // disable vertex arrays
-    //glDisableClientState(GL_COLOR_ARRAY);
 
     glutSwapBuffers();
 }

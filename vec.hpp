@@ -1,5 +1,8 @@
 #pragma once
 
+#include <vector>
+#include <cmath>
+
 class Vec3
 {
 public:
@@ -8,5 +11,63 @@ public:
     float z;
     Vec3(float x = 0.f, float y = 0.f, float z = 0.f) 
     : x(x), y(y), z(z) {}
-    
+
+    /**
+     * @brief Push this vector to specified std::vector<float>
+     * @param &dest Destination std::vector
+    */
+    void pushTo(std::vector<float> &dest)
+    {
+        dest.push_back(x);
+        dest.push_back(y);
+        dest.push_back(z);
+    }
+
+    Vec3 operator * (float k) const
+    {
+        Vec3 ret;
+        ret.x = x * k;
+        ret.y = y * k;
+        ret.z = z * k;
+        return ret;
+    }
+
+    Vec3 operator / (float k) const
+    {
+        Vec3 ret;
+        ret.x = x / k;
+        ret.y = y / k;
+        ret.z = z / k;
+        return ret;
+    }
+
+    Vec3 operator - (Vec3 v) const 
+    {
+        Vec3 ret;
+        ret.x = x - v.x;
+        ret.y = y - v.y;
+        ret.z = z - v.z;
+        return ret;
+    }
+
+    /**
+     * @brief Cross-product of vectors
+    **/
+    Vec3 operator * (Vec3 v) const
+    {
+        Vec3 ret;
+        ret.x = y * v.z - z * v.y;
+        ret.y = z * v.x - x * v.z;
+        ret.z = x * v.y - y * v.x;
+        return ret;
+    }
+
+    /**
+     * @brief Get vector length
+     * @return Vector length
+    **/
+    float length(void)
+    {
+        return sqrtf(x * x + y * y + z * z);
+    }
 };

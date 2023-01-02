@@ -7,7 +7,7 @@
 #include <thread>
 #include "vec.hpp"
 #include "graphics/sphere.hpp"
-
+#include "graphics/plane.hpp"
 
 void ph()
 {
@@ -26,9 +26,15 @@ void ph()
 int main(int argc, char **argv)
 {
     Graphics gui(640, 480, 45);
-    gui.setCamera(Vec3(0, 0, 0), Vec3(0, 0, -100), Vec3(0, 1, 0));
-    Sphere sp(1.f);
+    gui.setCamera(Vec3(2, 1, 2), Vec3(0, 0, 0.f), Vec3(0, 1, 0));
+    Sphere sp(0.1f, Vec3(0, 1, 0));
+    Plane pl(Vec3(-1, 0, 1), Vec3(1, 0, 1), Vec3(1, 0, -1), Vec3(-1, 0, -1));
+
+    sp.setPosition(0.0f, 0.1f, 0.f);
+
+    gui.add(pl);
     gui.add(sp);
+
     
     std::thread th(ph);
 

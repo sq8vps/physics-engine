@@ -5,15 +5,13 @@
 #include <vector>
 #include "../vec.hpp"
 
-
-
 class Shape
 {
 public:
     /**
      * @brief Draw object
      * @warning Should be called only by the graphics engine
-    */
+    **/
     void draw()
     {
         if(vertices.size() < 3) //return if this object is not initialized (less than 1 point)
@@ -43,25 +41,21 @@ public:
 
     /**
      * @brief Set object position
-     * @param x, y, z Destination coordinates
-    */
-    void setPosition(float x, float y, float z)
+     * @param pos New position
+    **/
+    void setPosition(Vec3 pos)
     {
-        pos.x = x;
-        pos.y = y;
-        pos.z = z;
+        this->pos = pos;
     }
     /**
      * @brief Rotate object
      * @param angle Angle in rad
-     * @param x, y, z Rotation axis
-    */
-    void rotate(float angle, float x, float y, float z)
+     * @param axis Rotation axis
+    **/
+    void rotate(float angle, Vec3 axis)
     {
         rot = RAD2DEG(angle);
-        rotAxis.x = x;
-        rotAxis.y = y; 
-        rotAxis.z = z;
+        this->rotAxis = rot;
     }
 protected:
     std::vector<float> vertices, normals, colors; //vertices, normals and colors array for OpenGL

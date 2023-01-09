@@ -38,6 +38,9 @@ Graphics::Graphics(int dimX, int dimY, double fov)
     glutDisplayFunc(this->updateWindow); //register all callbacks
     glutReshapeFunc(Graphics::reshapeWindow);
     glutIdleFunc(Graphics::updateWindow);
+    glutKeyboardFunc(Graphics::keyboardInput);
+    glutSpecialFunc(Graphics::specialKeyboardInput);
+
     glClearColor(0.2f, 0.2f, 0.2f, 1.f); //set background color to gray
     glClearDepth(1.f); //reset depth
     glEnable(GL_DEPTH_TEST);
@@ -82,8 +85,8 @@ void Graphics::updateWindow()
     glLoadIdentity();
     glPushMatrix();
     
-    for(int i = 0; i < wrapperPtr->objects.size(); i++)
-        wrapperPtr->objects.at(i).draw();
+    for(int i = 0; i < wrapperPtr->objects->size(); i++) //draw all shapes
+        wrapperPtr->objects->at(i).shape->draw();
     
     glPopMatrix();
 
@@ -123,7 +126,59 @@ void Graphics::setCameraDefaults()
     setCamera(Vec3(0.f, 0.f, 0.f), Vec3(0.f, 0.f, -100.f), Vec3(0.f, 1.f, 0.f));
 }
 
-void Graphics::add(Shape &object)
+void Graphics::bindObjects(std::vector<Object> *obj)
 {
-    objects.push_back(object);
+    objects = obj;
+}
+
+void Graphics::keyboardInput(unsigned char key, int x, int y)
+{
+    switch(key)
+    {
+        case ' ':
+            if(wrapperPtr->started)
+                wrapperPtr->stop();
+            else
+                wrapperPtr->start();
+            break;
+        default:
+            break;
+    }
+}
+
+void Graphics::specialKeyboardInput(int key, int x, int y)
+{
+    // switch(key)
+    // {
+    //     case GLUT_KEY_UP:
+    //         wrapperPtr->setCamera(Vec3(wrapperPtr->camEye.x));
+    // }
+    
+}
+
+void Graphics::setSimulationTimerCallback(void (*cb)())
+{
+    simulationTimerCb = cb;
+}
+
+void Graphics::start()
+{
+    started = true;
+    glutTimerFunc(1000.f / SIMULATION_RATE, &(Graphics::timerInternal), 0); //start timer
+}
+
+void Graphics::stop()
+{
+    started = false;
+}
+
+void Graphics::timerInternal(int val)
+{
+    if(wrapperPtr->started)
+       glutTimerFunc(1000.f / SIMULATION_RATE, &(Graphics::timerInternal), 0); //refresh timer if enabled
+    
+    if(wrapperPtr->simulationTimerCb != nullptr) //execute callback function if set
+        wrapperPtr->simulationTimerCb();
+    
+    glutPostRedisplay(); //re-paint request
 }

@@ -3,6 +3,9 @@
 #include <vector>
 #include <cmath>
 
+/**
+ * @brief A 3D vector class
+**/
 class Vec3
 {
 public:
@@ -23,6 +26,11 @@ public:
         dest.push_back(z);
     }
 
+    /**
+     * @brief Multiply vector by a constant
+     * @param k Constant
+     * @return Multiplied vector 
+    **/
     Vec3 operator * (float k) const
     {
         Vec3 ret;
@@ -32,6 +40,11 @@ public:
         return ret;
     }
 
+    /**
+     * @brief Divide vector by a constant
+     * @param k Constant
+     * @return Divided vector 
+    **/
     Vec3 operator / (float k) const
     {
         Vec3 ret;
@@ -41,6 +54,11 @@ public:
         return ret;
     }
 
+    /**
+     * @brief Subtract vectors
+     * @param v Subtrahend
+     * @return Subtracted vectors 
+    **/
     Vec3 operator - (Vec3 v) const 
     {
         Vec3 ret;
@@ -50,8 +68,24 @@ public:
         return ret;
     }
 
+     /**
+     * @brief Add vectors
+     * @param v 2nd vector
+     * @return Added vectors 
+    **/
+    Vec3 operator + (Vec3 v) const 
+    {
+        Vec3 ret;
+        ret.x = x + v.x;
+        ret.y = y + v.y;
+        ret.z = z + v.z;
+        return ret;
+    }
+
     /**
-     * @brief Cross-product of vectors
+     * @brief Calculate cross-product of vectors
+     * @param v 2nd factor
+     * @return Cross-product of vectors
     **/
     Vec3 operator * (Vec3 v) const
     {

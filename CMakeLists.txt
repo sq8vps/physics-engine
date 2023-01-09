@@ -3,10 +3,14 @@ project(physics-engine VERSION 0.0.1)
 
 add_executable(physics-engine 
             main.cpp 
+            object.hpp
+            common.hpp
+            error.hpp
+            vec.hpp
             engine/pointpart.cpp engine/env.cpp
             engine/pointpart.hpp engine/env.hpp engine/body.hpp
             graphics/graphics.cpp
-            graphics/graphics.hpp
+            graphics/graphics.hpp graphics/shape.hpp graphics/plane.hpp graphics/sphere.hpp
             
 
             lib/libfreeglut.a

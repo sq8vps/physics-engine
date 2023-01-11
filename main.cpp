@@ -13,15 +13,28 @@
 
 std::vector<Object> objects; //all objects (physical object + graphical shapes) table
 
+using namespace Bodies;
+using namespace Graphics;
+
 void doSimulation()
 {
     for(unsigned int t = 0; t < (1.f / (SIMULATION_RATE * env.dt)); t++) //process physics in real time
     {
+        unsigned int startingObject = 1; //starting object index for collision detection
         for(Object o : objects)  //apply to all objects
         {
             o.body->applyForces();
             o.body->collideWithGround();
-            o.body->move();
+            for(unsigned int i = startingObject; i < objects.size(); i++) //collide every pair of objects, but with no repetition!
+            {
+                if(!o.body->areBoundariesDefined() || !objects[i].body->areBoundariesDefined())
+                    continue;
+                o.body->collide(objects[i].body);
+                o.body->boundary->updateBodyPos(o.body->pos);
+                objects[i].body->boundary->updateBodyPos(objects[i].body->pos);
+            }
+            startingObject++; //set new starting object index to avoid pair repetition
+            o.body->move(); 
         }
     }
 
@@ -31,13 +44,13 @@ void doSimulation()
 
 int main(int argc, char **argv)
 {
-    Graphics gui(640, 480, 45); //create GUI with 640x480 window, 45 degress FOV
+    Graphics::Graphics gui(640, 480, 45); //create GUI with 640x480 window, 45 degress FOV
     gui.bindObjects(&objects); //bind object storage to GUI
-    gui.setCamera(Vec3(2, 1, 2), Vec3(0, 0, 0.f), Vec3(0, 1, 0)); //set camera to (2,1,2) looking at the center
+    gui.setCamera(Vec3(2, 1, 2), Vec3(), Vec3(0, 1, 0)); //set camera to (2,1,2) looking at the center
 
     //create initial objects
-    objects.push_back(Object(PointParticle(Vec3(0.f, 0.5f, 0.f), 1.f, 0.1f, 0.8f), Sphere(0.1f, Vec3(0, 1, 0)))); //a sphere treated as a point particle
-    objects.push_back(Object(PointParticle(Vec3(0.5f, 0.5f, 0.f), 1.f, 0.15f, 0.9f), Sphere(0.15f, Vec3(1, 0, 0)))); //a sphere treated as a point particle
+    objects.push_back(Object(PointParticle(Vec3(0.f, 0.5f, 0.f), 1.f, 0.1f, Vec3(0.5f, 0.f, 0.f), 0.8f), Sphere(0.1f, Vec3(0, 1, 0)))); //a sphere treated as a point particle
+    objects.push_back(Object(PointParticle(Vec3(0.5f, 0.5f, 0.f), 1.f, 0.15f, Vec3(), 0.9f), Sphere(0.15f, Vec3(1, 0, 0)))); //a sphere treated as a point particle
     objects.push_back(Object(Body(), Plane(Vec3(-1, 0, 1), Vec3(1, 0, 1), Vec3(1, 0, -1), Vec3(-1, 0, -1)))); //a plane with dummy body
 
     gui.setSimulationTimerCallback(&doSimulation); //set simulation callback to process physics and set new object positions

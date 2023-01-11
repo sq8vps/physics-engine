@@ -3,14 +3,14 @@
 #include <cmath>
 #include "env.hpp"
 
-void PointParticle::move(void)
+void Bodies::PointParticle::move(void)
 {
     this->pos.x += (this->v.x * env.dt);
     this->pos.y += (this->v.y * env.dt);
     this->pos.z += (this->v.z * env.dt);
 }
 
-void PointParticle::collideWithGround(void)
+void Bodies::PointParticle::collideWithGround(void)
 {
     //assume ground COR to be 1 (perfectly elastic)
     //only take body COR into consideration
@@ -22,13 +22,13 @@ void PointParticle::collideWithGround(void)
     }
 }
 
-void PointParticle::applyForces(void)
+void Bodies::PointParticle::applyForces(void)
 {
     this->v.y -= (env.g * env.dt); //apply gravitational force
 }
 
 
-Error_t PointParticle::setCOR(float cor)
+Error_t Bodies::PointParticle::setCOR(float cor)
 {
     if((cor < 0.f) || (cor > 1.f))
         return ERR_BAD_COR;
@@ -36,4 +36,40 @@ Error_t PointParticle::setCOR(float cor)
     this->cor = cor;
     
     return OK;
+}
+
+void Bodies::PointParticle::collide(Body *b)
+ {
+    if((this->boundary == nullptr) || (b->boundary == nullptr)) //either object has no boundaries defined?
+        return;
+    
+    if(this->boundary->detect((*b).boundary) == false) //no collision detected?
+        return;
+
+    switch(b->getBodyType())
+    {
+        case Bodies::BODY_POINT_PARTICLE:
+            collideWithPointParticle(dynamic_cast<PointParticle*>(b));
+            break;
+        default:
+            break;
+    }
+
+}
+
+void Bodies::PointParticle::collideWithPointParticle(PointParticle *b)
+{
+    Vec3 normal = (b->pos - this->pos) / (b->pos - this->pos).length(); //calculate contact vector (pointing from this object to other object)
+    float meff = 1.f / (1.f / this->m + 1.f / b->m); //calculate recuded (efficient) mass
+    float vimp = normal.dot(this->v - b->v); //calculate impact speed
+    float imp = (1.f + this->cor * b->cor) * meff * vimp; //calculate impulse magnitude
+
+    //calculate and set new velocities
+    this->v = this->v - (normal * (imp / this->m));
+    b->v = b->v + (normal * (imp / this->m));
+
+    //adjust position slightly so that the detection collision won't detect it
+    //again before position are updated
+    this->pos = this->pos + (this->v * env.dt * 2);
+    b->pos = b->pos + (b->v * env.dt * 2);
 }

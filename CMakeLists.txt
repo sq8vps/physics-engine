@@ -8,7 +8,7 @@ add_executable(physics-engine
             error.hpp
             vec.hpp
             engine/pointpart.cpp engine/env.cpp
-            engine/pointpart.hpp engine/env.hpp engine/body.hpp
+            engine/pointpart.hpp engine/env.hpp engine/body.hpp engine/collision.hpp
             graphics/graphics.cpp
             graphics/graphics.hpp graphics/shape.hpp graphics/plane.hpp graphics/sphere.hpp
             

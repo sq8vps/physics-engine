@@ -9,9 +9,9 @@
 #include "glut.h"
 
 
-Graphics *wrapperPtr = nullptr;
+Graphics::Graphics *wrapperPtr = nullptr;
 
-Graphics::Graphics(int dimX, int dimY, double fov)
+Graphics::Graphics::Graphics(int dimX, int dimY, double fov)
 {
     wrapperPtr = this;
     
@@ -71,12 +71,12 @@ Graphics::Graphics(int dimX, int dimY, double fov)
     setCameraDefaults();
 }
 
-Graphics::~Graphics()
+Graphics::Graphics::~Graphics()
 {
 
 }
 
-void Graphics::updateWindow()
+void Graphics::Graphics::updateWindow()
 {
     
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);   //clear buffers
@@ -93,7 +93,7 @@ void Graphics::updateWindow()
     glutSwapBuffers();
 }
 
-void Graphics::reshapeWindow(GLsizei x, GLsizei y)
+void Graphics::Graphics::reshapeWindow(GLsizei x, GLsizei y)
 {
     glViewport(0, 0, x, y); //set viewport dimensions
 
@@ -104,12 +104,12 @@ void Graphics::reshapeWindow(GLsizei x, GLsizei y)
     wrapperPtr->setCamera(wrapperPtr->camEye, wrapperPtr->camAt, wrapperPtr->camUp); //update projection and view transform matrices
 }
 
-void Graphics::exec()
+void Graphics::Graphics::exec()
 {  
     glutMainLoop();
 }
 
-void Graphics::setCamera(Vec3 eye, Vec3 at, Vec3 up)
+void Graphics::Graphics::setCamera(Vec3 eye, Vec3 at, Vec3 up)
 {
     camEye = eye;
     camAt = at;
@@ -121,17 +121,17 @@ void Graphics::setCamera(Vec3 eye, Vec3 at, Vec3 up)
     gluLookAt(camEye.x, camEye.y, camEye.z, camAt.x, camAt.y, camAt.z, camUp.x, camUp.y, camUp.z);
 }
 
-void Graphics::setCameraDefaults()
+void Graphics::Graphics::setCameraDefaults()
 {
     setCamera(Vec3(0.f, 0.f, 0.f), Vec3(0.f, 0.f, -100.f), Vec3(0.f, 1.f, 0.f));
 }
 
-void Graphics::bindObjects(std::vector<Object> *obj)
+void Graphics::Graphics::bindObjects(std::vector<Object> *obj)
 {
     objects = obj;
 }
 
-void Graphics::keyboardInput(unsigned char key, int x, int y)
+void Graphics::Graphics::keyboardInput(unsigned char key, int x, int y)
 {
     switch(key)
     {
@@ -146,7 +146,7 @@ void Graphics::keyboardInput(unsigned char key, int x, int y)
     }
 }
 
-void Graphics::specialKeyboardInput(int key, int x, int y)
+void Graphics::Graphics::specialKeyboardInput(int key, int x, int y)
 {
     // switch(key)
     // {
@@ -156,23 +156,23 @@ void Graphics::specialKeyboardInput(int key, int x, int y)
     
 }
 
-void Graphics::setSimulationTimerCallback(void (*cb)())
+void Graphics::Graphics::setSimulationTimerCallback(void (*cb)())
 {
     simulationTimerCb = cb;
 }
 
-void Graphics::start()
+void Graphics::Graphics::start()
 {
     started = true;
     glutTimerFunc(1000.f / SIMULATION_RATE, &(Graphics::timerInternal), 0); //start timer
 }
 
-void Graphics::stop()
+void Graphics::Graphics::stop()
 {
     started = false;
 }
 
-void Graphics::timerInternal(int val)
+void Graphics::Graphics::timerInternal(int val)
 {
     if(wrapperPtr->started)
        glutTimerFunc(1000.f / SIMULATION_RATE, &(Graphics::timerInternal), 0); //refresh timer if enabled

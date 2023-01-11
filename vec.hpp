@@ -104,4 +104,25 @@ public:
     {
         return sqrtf(x * x + y * y + z * z);
     }
+
+    /**
+     * @brief Calculate dot-product of vectors
+     * @param v 2nd vector
+     * @return Dot-product of vectors
+    **/
+    float dot(Vec3 v)
+    {
+        return x * v.x + y * v.y + z * v.z;
+    }
+
+    /**
+     * @brief Calculate dot-product of vectors
+     * @param v1 1st vector
+     * @param v2 2nd vector
+     * @return Dot-product of vectors
+    **/
+    static float dot(Vec3 v1, Vec3 v2)
+    {
+        return v1.x * v2.x + v1.y * v2.y + v1.z * v2.z;
+    }
 };

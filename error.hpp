@@ -7,4 +7,5 @@ typedef enum
 
 } Error_t;
 
-#define EXIT_OK 0x000
+#define EXIT_OK 0
+#define EXIT_ARG -1

@@ -2,6 +2,7 @@
 
 #include <vector>
 #include <cmath>
+#include <iostream>
 
 /**
  * @brief A 3D vector class
@@ -125,4 +126,7 @@ public:
     {
         return v1.x * v2.x + v1.y * v2.y + v1.z * v2.z;
     }
+
+    friend std::ostream& operator<<(std::ostream &o, const Vec3 &v);
 };
+

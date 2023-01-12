@@ -4,9 +4,10 @@ project(physics-engine VERSION 0.0.1)
 add_executable(physics-engine 
             main.cpp 
             object.hpp
-            common.hpp
+            common.hpp common.cpp
             error.hpp
-            vec.hpp
+            vec.cpp vec.hpp
+            terminal.cpp terminal.hpp
             engine/pointpart.cpp engine/env.cpp
             engine/pointpart.hpp engine/env.hpp engine/body.hpp engine/collision.hpp
             graphics/graphics.cpp

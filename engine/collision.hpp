@@ -17,7 +17,7 @@ namespace Collision
     };
 
     /**
-     * @brief An abstract class for collision boundaries and detection
+     * @brief A class for collision boundaries and detection
     **/
     class Boundary
     {
@@ -29,6 +29,11 @@ namespace Collision
         {
         }
 
+        /**
+         * @brief Update local body position
+         * @param pos New position
+         * @attention Must be updated by the program on every position change 
+        **/
         void updateBodyPos(Vec3 &pos)
         {
             bodyPos = pos;

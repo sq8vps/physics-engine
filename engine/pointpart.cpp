@@ -72,4 +72,6 @@ void Bodies::PointParticle::collideWithPointParticle(PointParticle *b)
     //again before position are updated
     this->pos = this->pos + (this->v * env.dt * 2);
     b->pos = b->pos + (b->v * env.dt * 2);
+
+    
 }

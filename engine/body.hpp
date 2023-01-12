@@ -5,6 +5,9 @@
 
 namespace Bodies
 {
+    /**
+     * @brief Body types 
+    **/
     enum Type
     {
         BODY_POINT_PARTICLE,
@@ -62,11 +65,19 @@ namespace Bodies
         **/
         virtual void collide(Body *b){};
 
+        /**
+         * @brief Get body type
+         * @return Body type from enum Bodies::Type 
+        **/
         enum Type getBodyType()
         {
             return type;
         }
 
+        /**
+         * @brief Check if boundaries are initialized
+         * @return True if so, false if not 
+        **/
         bool areBoundariesDefined()
         {
             if(boundary == nullptr)

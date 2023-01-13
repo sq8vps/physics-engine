@@ -21,6 +21,8 @@ using namespace Bodies;
 using namespace Graphics;
 using namespace std;
 
+#define DEFAULT_RANDOM_OBJECT_COUNT (10) //default number of random objects to be generated
+
 /**
  * @brief A configuration structure for options chosen with arguments 
 **/
@@ -31,7 +33,7 @@ struct Config
     int dimX;
     int dimY;
     int nRandom;
-} config{false, false, GRAPHICS_DEFAULT_DIM_X, GRAPHICS_DEFAULT_DIM_Y, 10};
+} config{false, false, GRAPHICS_DEFAULT_DIM_X, GRAPHICS_DEFAULT_DIM_Y, DEFAULT_RANDOM_OBJECT_COUNT};
 
 void doSimulation()
 {

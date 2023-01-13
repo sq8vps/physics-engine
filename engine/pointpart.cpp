@@ -2,6 +2,7 @@
 
 #include <cmath>
 #include "env.hpp"
+#include "../common.hpp"
 
 void Bodies::PointParticle::move(void)
 {
@@ -25,6 +26,14 @@ void Bodies::PointParticle::collideWithGround(void)
 void Bodies::PointParticle::applyForces(void)
 {
     this->v.y -= (env.g * env.dt); //apply gravitational force
+    this->v.y += (env.rho * env.g * volume / m * env.dt); //apply buoyancy force
+
+    float k = 0.5f * env.rho * DRAG_COEFFICIENT * frontalAera; //calculate drag common term
+    //apply drag
+    //use signum function to apply drag force in the opposite direction to velocity vector
+    this->v.x -= (sgn(this->v.x) * this->v.x * this->v.x * k * env.dt);
+    this->v.y -= (sgn(this->v.y) * this->v.y * this->v.y * k * env.dt);
+    this->v.z -= (sgn(this->v.z) * this->v.z * this->v.z * k * env.dt); 
 }
 
 
@@ -72,6 +81,4 @@ void Bodies::PointParticle::collideWithPointParticle(PointParticle *b)
     //again before position are updated
     this->pos = this->pos + (this->v * env.dt * 2);
     b->pos = b->pos + (b->v * env.dt * 2);
-
-    
 }

@@ -17,3 +17,10 @@
  * @return Random float 
 **/
 float randf(float min, float max);
+
+/**
+ * @brief Get sign of a value
+ * @param val Value to check the sign of
+ * @return Sign of the value, that is -1, 0 or 1 
+**/
+float sgn(float val);

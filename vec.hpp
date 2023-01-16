@@ -10,9 +10,16 @@
 class Vec3
 {
 public:
-    float x;
-    float y;
-    float z;
+    float x{};
+    float y{};
+    float z{};
+
+    /**
+     * @brief Initialize 3D vector
+     * @param x X coordinate
+     * @param y Y coordinate
+     * @param z Z coordinate
+    **/
     Vec3(float x = 0.f, float y = 0.f, float z = 0.f) 
     : x(x), y(y), z(z) {}
 

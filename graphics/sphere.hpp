@@ -8,24 +8,43 @@
 
 namespace Graphics
 {
-    #define SPHERE_SECTOR_COUNT 20
-    #define SPHERE_STACK_COUNT 20
-
-    #define SPHERE_DEFAULT_COLOR (Vec3(0.8f, 0.8f, 0.8f))
+    /**
+     * @brief A sphere shape class 
+    **/
     class Sphere
     : public Shape
     {
     public:
+        #define SPHERE_SECTOR_COUNT 20
+        #define SPHERE_STACK_COUNT 20
+
+        #define SPHERE_DEFAULT_COLOR (Vec3(0.8f, 0.8f, 0.8f)) //default sphere color (light grey)
+
+        /**
+         * @brief Create sphere
+         * @param radius Sphere radius 
+        **/
         Sphere(float radius)
         {
             generate(radius, SPHERE_DEFAULT_COLOR);
         }
-    
+
+        /**
+         * @brief Create sphere
+         * @param radius Sphere radius
+         * @param color Sphere color
+        **/
         Sphere(float radius, Vec3 color)
         {
             generate(radius, color);
         }
+
     private:
+        /**
+         * @brief Generate sphere
+         * @param radius Sphere radius
+         * @param color Sphere color
+        **/
         void generate(float radius, Vec3 color)
         {   
             //rewritten from http://www.songho.ca/opengl/gl_sphere.html

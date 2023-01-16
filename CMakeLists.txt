@@ -1,6 +1,8 @@
 cmake_minimum_required(VERSION 3.0.0)
 project(physics-engine VERSION 0.0.1)
 
+
+
 add_executable(physics-engine 
             main.cpp 
             object.hpp
@@ -17,6 +19,7 @@ add_executable(physics-engine
             lib/libfreeglut.a
 )
 
+target_link_libraries(physics-engine -static)
 target_link_libraries(physics-engine ${CMAKE_SOURCE_DIR}/lib/libfreeglut.a)
 target_link_libraries(physics-engine libopengl32.a)
 target_link_libraries(physics-engine libglu32.a)

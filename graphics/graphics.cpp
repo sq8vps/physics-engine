@@ -9,7 +9,9 @@
 #include "glut.h"
 
 
-Graphics::Graphics *wrapperPtr = nullptr;
+Graphics::Graphics *wrapperPtr = nullptr; //a pointer to GUI object. It is set when object is created.
+//it is needed for static functions that use member function
+//static functions are used as an interface with OpenGL library which is written in C
 
 Graphics::Graphics::Graphics(int dimX, int dimY, double fov)
 {

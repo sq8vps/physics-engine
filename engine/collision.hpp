@@ -7,8 +7,9 @@
 namespace Collision
 {
     class Spheres;
-    class Box; //declare Box class for use by Spheres class. Definition is at the bottom of this file.
+    class Box;
     
+    //boundary types
     enum Type
     {
         BOUNDARY_SPHERE,
@@ -69,7 +70,7 @@ namespace Collision
 
 
     protected:
-        Vec3 bodyPos; //current body position
+        Vec3 bodyPos{}; //current body position
         enum Type type = BOUNDARY_NONE; //boundary type
 
     };
@@ -90,12 +91,20 @@ namespace Collision
         };
         std::vector<Sphere> spheres; //vector of spheres making the full boundary
 
+        /**
+         * @brief Initialize sphere collision boundary object
+        **/
         Spheres()
         : Collision::Boundary()
         {
             type = BOUNDARY_SPHERE;
         }
 
+        /**
+         * @brief Detect collision between two objects
+         * @param *other Other object boundary pointer
+         * @return True if collision detected, false if no collision detected
+        */
         bool detect(Boundary *other)
         {
             switch(other->getBoundaryType())
@@ -113,6 +122,11 @@ namespace Collision
             return false;
         }
 
+        /**
+         * @brief Detect collision between sphere-bounded bodies
+         * @param *other Other body boundary object (spheres)
+         * @return True if collision detected, false if no collision detected
+        */
         bool detect(Spheres &other)
         {
             //check if any spheres overlap
@@ -128,11 +142,22 @@ namespace Collision
             }
             return false; //no spheres overlap - no collision
         }
+
+        /**
+         * @brief Detect collision between sphere-bounded and box-bounded bodies
+         * @param *other Other body boundary object (box)
+         * @return True if collision detected, false if no collision detected
+        */
         bool detect(Box &other)
         {
             return false;
         }
 
+        /**
+         * @brief Add bounding sphere
+         * @param pos Sphere position relative to object center
+         * @param radius Sphere radius 
+        **/
         void addSphere(Vec3 pos, float radius)
         {
             spheres.push_back(Sphere{pos, radius});
@@ -143,7 +168,8 @@ namespace Collision
 
 
     /**
-     * @brief A cuboid axis-aligned collision boundary box class 
+     * @brief A cuboid collision boundary box class 
+     * @warning Not implemented yet!
     **/
     class Box
     : public Boundary
@@ -151,11 +177,21 @@ namespace Collision
     public:
         std::vector<Vec3> vertices; //3 boundary box vertices
 
+        /**
+         * @brief Detect collision between sphere-bounded and box-bounded bodies
+         * @param *other Other body boundary object (spheres)
+         * @return True if collision detected, false if no collision detected
+        */
         bool detect(Spheres &other)
         {
             return false;
         }
 
+        /**
+         * @brief Detect collision between box-bounded bodies
+         * @param *other Other body boundary object (box)
+         * @return True if collision detected, false if no collision detected
+        */
         bool detect(Box &other)
         {
             return false;

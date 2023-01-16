@@ -7,6 +7,11 @@
 #include "graphics/sphere.hpp"
 #include "engine/pointpart.hpp"
 
+using std::cout;
+using std::string;
+using std::cin;
+using std::endl;
+
 void Terminal::start()
 {
     while(1)

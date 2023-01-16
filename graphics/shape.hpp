@@ -6,10 +6,43 @@
 #include "../vec.hpp"
 
 namespace Graphics
-{
+{   
+    /**
+     * @brief A base class for all graphical shapes 
+    **/
     class Shape
     {
     public:
+        /**
+         * @brief Set object position
+         * @param pos New position
+        **/
+        void setPosition(Vec3 pos)
+        {
+            this->pos = pos;
+        }
+        /**
+         * @brief Rotate object
+         * @param angle Angle in rad
+         * @param axis Rotation axis
+        **/
+        void rotate(float angle, Vec3 axis)
+        {
+            rot = RAD2DEG(angle);
+            this->rotAxis = rot;
+        }
+
+        friend class Graphics;
+
+
+    protected:
+        std::vector<float> vertices, normals, colors; //vertices, normals and colors array for OpenGL
+        std::vector<GLuint> indices; //indices array
+        Vec3 pos{}; //current object position
+        float rot{0.f}; //object rotation in degrees
+        Vec3 rotAxis{0.f, 1.f, 0.f}; //rotation axis (set to initially rotate around Y)
+
+    private:
         /**
          * @brief Draw object
          * @warning Should be called only by the graphics engine
@@ -40,30 +73,5 @@ namespace Graphics
             glDisableClientState(GL_NORMAL_ARRAY);
             
         }
-
-        /**
-         * @brief Set object position
-         * @param pos New position
-        **/
-        void setPosition(Vec3 pos)
-        {
-            this->pos = pos;
-        }
-        /**
-         * @brief Rotate object
-         * @param angle Angle in rad
-         * @param axis Rotation axis
-        **/
-        void rotate(float angle, Vec3 axis)
-        {
-            rot = RAD2DEG(angle);
-            this->rotAxis = rot;
-        }
-    protected:
-        std::vector<float> vertices, normals, colors; //vertices, normals and colors array for OpenGL
-        std::vector<GLuint> indices; //indices array
-        Vec3 pos; //current object position
-        float rot{0.f}; //object rotation in degrees
-        Vec3 rotAxis{0.f, 1.f, 0.f}; //rotation axis (set to initially rotate around Y)
     };
 };

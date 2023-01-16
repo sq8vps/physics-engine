@@ -82,6 +82,7 @@ namespace Graphics
          * @brief Start simulation, that is enable timer callback
         **/
         void start();
+
         /**
          * @brief Stop simulation, that is disable timer callback
          * @attention Does not stop rendering, so that the camera can be manipulated 
@@ -89,21 +90,51 @@ namespace Graphics
         void stop();
 
     private:
-        int dimX; //window width in pixels
-        int dimY; //window height in pixels
-        double fov; //field of view in Y axis in degrees
-        double ratio; //current width-to-height viewport ratio
+        int dimX{}; //window width in pixels
+        int dimY{}; //window height in pixels
+        double fov{}; //field of view in Y axis in degrees
+        double ratio{}; //current width-to-height viewport ratio
         Vec3 camEye{0.f, 0.f, 2.f}, camAt{0.f, 0.f, 0.f}, camUp{0.f, 1.f, 0.f}; //view transform (camera) vectors
         float camPhi = GRAPHICS_DEFAULT_CAM_PHI, camTheta = GRAPHICS_DEFAULT_CAM_THETA, camRadius = GRAPHICS_DEFAULT_CAM_RADIUS; //camera spherical coordinates
         bool started = 0; //is simulation started (ongoing?)
 
+        //these function need to be static in order to pass its pointer to OpenGL libraries (which are written in C)
+        //these function should be called ONLY by OpenGL
+        /**
+         * @brief Update window, render objects etc. 
+        **/
         static void updateWindow();
+
+        /**
+         * @brief Reshape window
+         * @param x New X dimension
+         * @param y New Y dimension 
+        **/
         static void reshapeWindow(GLsizei x, GLsizei y);
+
+        /**
+         * @brief Handle keyboard input
+         * @param key Pressed key
+         * @param x Cursor x position on screen
+         * @param y Cursor y position on screen 
+        **/
         static void keyboardInput(unsigned char key, int x, int y);
+
+        /**
+         * @brief Handle special keyboard input
+         * @param key Pressed key code
+         * @param x Cursor x position on screen
+         * @param y Cursor y position on screen 
+        **/
         static void specialKeyboardInput(int key, int x, int y);
+
+        /**
+         * @brief Handle OpenGL timer tick
+         * @param val Timer index
+        **/
         static void timerInternal(int val);
 
-        std::vector<Object> *objects;
+        std::vector<Object> *objects; //pointer to object storage vector
 
         void (*simulationTimerCb)() = nullptr; //simulation timer callback function pointer
     };

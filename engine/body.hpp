@@ -24,9 +24,9 @@ namespace Bodies
     class Body
     {
     public:
-        Vec3 pos; //center of mass coordinates in meters
-        Vec3 v; //center of mass velocity in m/s
-        float m; //mass in kg
+        Vec3 pos{}; //center of mass coordinates in meters
+        Vec3 v{}; //center of mass velocity in m/s
+        float m{}; //mass in kg
         Collision::Boundary *boundary = nullptr; //body boundaries for collision detection
 
         /**
@@ -59,7 +59,7 @@ namespace Bodies
         virtual void applyForces(void){};
 
         /**
-         * @brief Handle collision with other bodies
+         * @brief Handle collision with other body
          * @param b The other body to collide with
          * @warning This function changes velocities of both bodies, so must be called only once for the same pair of bodies 
         **/

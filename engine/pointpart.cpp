@@ -78,7 +78,15 @@ void Bodies::PointParticle::collideWithPointParticle(PointParticle *b)
     b->v = b->v + (normal * (imp / this->m));
 
     //adjust position slightly so that the detection collision won't detect it
-    //again before position are updated
+    //again before positions are updated
     this->pos = this->pos + (this->v * env.dt * 2);
     b->pos = b->pos + (b->v * env.dt * 2);
+
+    float overlap = (b->radius + this->radius) - (b->pos - this->pos).length(); //calculate how far bodies overlap
+    if(overlap >= 0.f) //if they overlap or touch each other
+    {
+        //adjust positions along the contact vector so that they do not overlap anymore
+        this->pos = this->pos - normal * overlap;
+        b->pos = b->pos + normal * overlap;
+    }
 }

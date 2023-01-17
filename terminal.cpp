@@ -52,8 +52,8 @@ void Terminal::addObject()
     cin >> m;
     cout << "Set initial velocity (y/N)? ";
     string s;
-    cin.ignore();
-    getline(cin, s);
+    fflush(stdin);
+    std::getline(cin, s);
     if((s == "y") || (s == "Y"))
     {
         cout << "Velocity x: ";
@@ -64,16 +64,17 @@ void Terminal::addObject()
         cin >> v.z;
     }
     cout << "Set coefficient of restitution (y/N)? ";
-    cin.ignore();
-    getline(cin, s);
+    cin.clear();
+    fflush(stdin);
+    std::getline(cin, s);
     if((s == "y") || (s == "Y"))
     {
         cout << "COR: ";
         cin >> cor;
     }
     cout << "Set color (y/N)? ";
-    cin.ignore();
-    getline(cin, s);
+    fflush(stdin);
+    std::getline(cin, s);
     if((s == "y") || (s == "Y"))
     {
         cout << "Color R: ";

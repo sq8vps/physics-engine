@@ -28,7 +28,7 @@
 
 build/*
 !build/physics-engine.exe
-!build/freeglut.dll
+!build/*.dll
 CMakeFiles/
 
 # Local History for Visual Studio Code

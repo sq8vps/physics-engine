@@ -132,8 +132,8 @@ void Graphics::Graphics::setCameraSpherical(float phi, float theta, float radius
         phi = 2.f * M_PI;
     if(theta > M_PI)
         theta = M_PI;
-    else if(theta < 0.f)
-        theta = 0;
+    else if(theta <= 0.f)
+        theta = 0.0001f;
     if(radius > GRAPHICS_MAX_CAM_RADIUS)
         radius = GRAPHICS_MAX_CAM_RADIUS;
     else if(radius < GRAPHICS_MIN_CAM_RADIUS)
